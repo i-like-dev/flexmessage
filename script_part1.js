@@ -13,26 +13,23 @@ idText.value = defaultId;
 
 let defaultmsg;
 
-liff.init({ liffId: "2006185026-GjLBR0ml" })
-.then(async () => {
-    if (liff.isLoggedIn()) {
-        let urlParams = new URLSearchParams(window.location.search);
-        const params = urlParams.has('liff.state') ? new URLSearchParams(urlParams.get('liff.state')) : urlParams;
-        const uid = params.get('id');
-        const edit = params.get('edit');
-        if (uid != null && (edit == null || !edit)) {			
-            panel.style.display = 'none';
-            let res = await fetchAsync({ method: "Load", id: uid });
-            res = await res.json();
-            defaultmsg = JSON.parse(res.pat);
-            if (liff.isApiAvailable('shareTargetPicker')) {
-                liff.shareTargetPicker([defaultmsg])
-                .then(() => {
-                    result.innerHTML = "傳送成功";
-                    shared = true;
-                }).catch((res) => {
-                    result.innerHTML = "傳送尚未成功:" + JSON.stringify(res);
-                });
+liff.init({
+  liffId: "2006185026-GjLBR0ml"  // 替换为您的实际LIFF ID
+}).then(() => {
+  if (!liff.isLoggedIn()) {
+    liff.login();  // 如果用户未登录，触发登录
+  } else {
+    // 用户已登录，可以获取用户信息
+    liff.getProfile().then(profile => {
+      console.log(profile.displayName);
+    }).catch(err => {
+      console.error('Error getting profile:', err);
+    });
+  }
+}).catch((err) => {
+  console.error('LIFF Initialization failed', err);
+});
+
             }
         }
         if (uid != null && edit) {

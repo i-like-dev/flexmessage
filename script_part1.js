@@ -13,7 +13,7 @@ idText.value = defaultId;
 
 let defaultmsg;
 
-liff.init({ liffId: "YOUR_LIFF_ID" })
+liff.init({ liffId: "2006185026-GjLBR0ml" })
 .then(async () => {
     if (liff.isLoggedIn()) {
         let urlParams = new URLSearchParams(window.location.search);
